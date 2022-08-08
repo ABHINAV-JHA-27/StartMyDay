@@ -18,7 +18,11 @@ const DetailPage = () => {
     return (
         <ImageBackground source={bg} style={styles.page}>
             <Pressable style={styles.icon} onPress={() => goBack()}>
-                <Entypo name="circle-with-cross" size={40} color="dodgerblue" />
+                <Entypo
+                    name="circle-with-cross"
+                    size={40}
+                    color="rgba(147, 122, 204,0.4)"
+                />
             </Pressable>
             <ScrollView style={styles.container}>
                 <View style={styles.titleContainer}>

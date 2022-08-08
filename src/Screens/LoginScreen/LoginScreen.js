@@ -1,6 +1,7 @@
-import { Pressable, StyleSheet, Text, TextInput, View, ImageBackground } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View, ImageBackground, Image } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import BG from '../../../assets/bg.jpg';
+import icon from '../../../assets/login.png';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -12,6 +13,8 @@ const LoginScreen = () => {
 
     const login = () => {
         if (username.toLowerCase() === 'admin' && password === 'admin') {
+            setUsername(''); setPassword('');
+            console.warn(username, password);
             navigation.navigate('HomeScreen');
         } else {
             alert('Invalid username or password');
@@ -20,6 +23,7 @@ const LoginScreen = () => {
     return (
         <ImageBackground source={BG} style={styles.bg}>
             <View style={styles.page}>
+                <Image source={icon} style={{ width: 300, height: 300, marginBottom: 40, }} />
                 <TextInput
                     value={username}
                     onChangeText={setUsername}
@@ -51,7 +55,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     page: {
-        marginTop: 320,
+        marginTop: 10,
         padding: 10,
         flex: 1,
         justifyContent: 'center',

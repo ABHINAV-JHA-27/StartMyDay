@@ -2,15 +2,19 @@ import { StyleSheet, Text, View, FlatList, Pressable, ImageBackground, ActivityI
 import React, { useState, useEffect } from "react";
 import bg from "../../../assets/gradient.jpg";
 import NewsCard from "../../Component/NewsCard";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { service } from '../../Services/NewsService';
 
 const HomeScreen = () => {
     const [Data, setData] = useState([]);
-    const [Loading, setLoading] = useState(true);
+    const [Loading, setLoading] = useState(false);
+    const [page, setpage] = useState(1);
 
     const navigation = useNavigation();
+    const route = useRoute();
+    const user = route?.params?.user;
+
 
     const showDetail = (item) => {
         navigation.navigate('Detail', { item });
@@ -18,16 +22,16 @@ const HomeScreen = () => {
 
     const getData = () => {
         service().then(data => {
-            setData(data);
+            setData(Data.concat(data));
         }).catch(err => {
             console.warn(err);
         })
     }
 
     useEffect(() => {
+        setLoading(true);
         getData();
-        setLoading(false);
-    }, [Loading])
+    }, [page])
 
 
     const goBack = () => {
@@ -52,7 +56,7 @@ const HomeScreen = () => {
                     <Pressable onPress={goBack}>
                         <Feather name="log-out" size={24} color="black" />
                     </Pressable>
-                    <Text>Hello User!!</Text>
+                    <Text>Welcome Back {user}</Text>
                 </View>
                 <FlatList
                     data={Data}
@@ -66,8 +70,11 @@ const HomeScreen = () => {
                             <ActivityIndicator size="large" color="white" />
                         </View>
                     )}
-                    onEndReachedThreshold={1}
-                    onEndReached={() => setLoading(true)}
+                    onEndReachedThreshold={0}
+                    onEndReached={() => {
+                        setLoading(true)
+                        setpage(page + 1)
+                    }}
                 />
             </View>
         </ImageBackground>
@@ -84,7 +91,7 @@ const styles = StyleSheet.create({
     header: {
         width: "100%",
         marginTop: 45,
-        backgroundColor: 'dodgerblue',
+        backgroundColor: 'rgba(97, 34, 245,0.4)',
         padding: 18,
         borderRadius: 10,
         flexDirection: 'row',
