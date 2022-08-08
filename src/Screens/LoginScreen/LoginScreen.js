@@ -1,14 +1,21 @@
 import { Pressable, StyleSheet, Text, TextInput, View, ImageBackground } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import BG from '../../../assets/bg.jpg';
+import { useNavigation } from '@react-navigation/native';
 
 
 const LoginScreen = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    const navigation = useNavigation();
+
     const login = () => {
-        console.warn('Login');
+        if (username.toLowerCase() === 'admin' && password === 'admin') {
+            navigation.navigate('HomeScreen');
+        } else {
+            alert('Invalid username or password');
+        }
     };
     return (
         <ImageBackground source={BG} style={styles.bg}>

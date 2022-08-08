@@ -1,14 +1,23 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import LoginScreen from "../Screens/LoginScreen/LoginScreen";
+import HomeScreen from "../Screens/HomeScreen/HomeScreen";
+import DetailPage from "../Screens/DetailPage/DetailPage";
+
+const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
     return (
-        <View>
-            <Text>Navigation</Text>
-        </View>
+        <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={LoginScreen}>
+                <Stack.Screen name="Login" component={LoginScreen} />
+                <Stack.Screen name="HomeScreen" component={HomeScreen} />
+                <Stack.Screen name="Detail" component={DetailPage} />
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 };
 
 export default Navigation;
-
-const styles = StyleSheet.create({});
