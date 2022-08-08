@@ -1,13 +1,13 @@
-import { StyleSheet, Text, View, FlatList, Pressable, ImageBackground, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, View, FlatList, Pressable, ImageBackground, ActivityIndicator, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import bg from "../../../assets/gradient.jpg";
 import NewsCard from "../../Component/NewsCard";
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
-import data from './Data.json'
+import { Feather } from '@expo/vector-icons';
+import { service } from '../../Services/NewsService';
 
 const HomeScreen = () => {
-    const [Data, setData] = useState(data);
+    const [Data, setData] = useState([]);
     const [Loading, setLoading] = useState(true);
 
     const navigation = useNavigation();
@@ -16,27 +16,41 @@ const HomeScreen = () => {
         navigation.navigate('Detail', { item });
     }
 
-    const getData = async () => {
-        const apiUrl = "https://newsapi.org/v2/top-headlines?country=in&apiKey=f11a8f8fdc674f44a6d3b975546f374c";
-        fetch(apiUrl).then((res) => res.json()).then(res => {
-            // setData(Data.concat(res));
-            console.warn(Data);
-            setLoading(false);
+    const getData = () => {
+        service().then(data => {
+            setData(data);
+        }).catch(err => {
+            console.warn(err);
         })
     }
 
     useEffect(() => {
         getData();
         setLoading(false);
-        // console.warn(Data);
     }, [Loading])
+
+
+    const goBack = () => {
+        Alert.alert(
+            "Logout",
+            "Are you sure you want to logout?",
+            [
+                {
+                    text: "Return",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "Yes", onPress: () => navigation.pop() }
+            ]
+        );
+    }
 
     return (
         <ImageBackground source={bg} style={styles.page}>
             <View >
                 <View style={styles.header}>
-                    <Pressable>
-                        <Ionicons name="options-outline" size={24} color="black" />
+                    <Pressable onPress={goBack}>
+                        <Feather name="log-out" size={24} color="black" />
                     </Pressable>
                     <Text>Hello User!!</Text>
                 </View>
@@ -80,7 +94,7 @@ const styles = StyleSheet.create({
 
     },
     card: {
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(250, 250, 250, 0.2)',
         marginVertical: 10,
         padding: 10,
         borderRadius: 20,

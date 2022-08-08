@@ -26,6 +26,7 @@ const LoginScreen = () => {
                     style={styles.input}
                     placeholder="Username"
                     autoCapitalize="none"
+                    placeholderTextColor={'black'}
                 />
                 <TextInput
                     value={password}
@@ -33,9 +34,10 @@ const LoginScreen = () => {
                     style={styles.input}
                     placeholder="Password"
                     secureTextEntry={true}
+                    placeholderTextColor={'black'}
                 />
                 <Pressable style={styles.button} onPress={login}>
-                    <Text>Login</Text>
+                    <Text style={{ color: "black", fontWeight: '700', fontSize: 20 }}>Login</Text>
                 </Pressable>
             </View>
         </ImageBackground>
@@ -56,14 +58,14 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
     },
     input: {
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(250, 250, 250, 0.5)',
         padding: 15,
         marginVertical: 10,
         borderRadius: 10,
     },
     button: {
         marginTop: 40,
-        backgroundColor: 'dodgerblue',
+        backgroundColor: 'rgba(100, 100, 200, 0.6)',
         padding: 10,
         borderRadius: 15,
         alignItems: 'center',

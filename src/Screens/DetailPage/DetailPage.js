@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, ScrollView, ImageBackground, Image, Pressable } from "react-native";
 import React from "react";
 import { useNavigation, useRoute } from '@react-navigation/core';
-import bg from "../../../assets/detailGradient.jpg";
+// import bg from "../../../assets/detailGradient.jpg";
+import bg from "../../../assets/gradient.jpg";
 import * as WebBrowser from 'expo-web-browser';
 import { Entypo } from '@expo/vector-icons';
 
@@ -17,7 +18,7 @@ const DetailPage = () => {
     return (
         <ImageBackground source={bg} style={styles.page}>
             <Pressable style={styles.icon} onPress={() => goBack()}>
-                <Entypo name="circle-with-cross" size={32} color="dodgerblue" />
+                <Entypo name="circle-with-cross" size={40} color="dodgerblue" />
             </Pressable>
             <ScrollView style={styles.container}>
                 <View style={styles.titleContainer}>
@@ -36,7 +37,7 @@ const DetailPage = () => {
                     </Pressable>
                 </View>
             </ScrollView>
-        </ImageBackground >
+        </ImageBackground>
     );
 };
 
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     container: {
-        marginTop: 80,
+        marginTop: 85,
     },
     picture: {
         width: '100%',
