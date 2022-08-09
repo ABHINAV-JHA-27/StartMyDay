@@ -13,8 +13,6 @@ const LoginScreen = () => {
 
     const login = () => {
         if (username.toLowerCase() === 'admin' && password === 'admin') {
-            setUsername(''); setPassword('');
-            console.warn(username, password);
             navigation.navigate('HomeScreen');
         } else {
             alert('Invalid username or password');

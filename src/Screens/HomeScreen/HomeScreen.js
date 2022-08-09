@@ -5,32 +5,64 @@ import NewsCard from "../../Component/NewsCard";
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { service } from '../../Services/NewsService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNetInfo } from "@react-native-community/netinfo";
+import NetInfo from '@react-native-community/netinfo';
 
 const HomeScreen = () => {
     const [Data, setData] = useState([]);
     const [Loading, setLoading] = useState(false);
     const [page, setpage] = useState(1);
+    const [internetConnected, setinternetConnected] = useState(true);
 
     const navigation = useNavigation();
     const route = useRoute();
     const user = route?.params?.user;
 
+    const netinfo = useNetInfo();
 
     const showDetail = (item) => {
         navigation.navigate('Detail', { item });
     }
 
-    const getData = () => {
-        service().then(data => {
+    const getDataFromAPI = async () => {
+        await service().then(data => {
             setData(Data.concat(data));
         }).catch(err => {
-            console.warn(err);
-        })
+            alert("A error has occurred.");
+        });
     }
 
+    const getDataFromCache = async () => {
+        try {
+            const jsonValue = await AsyncStorage.getItem('@cache');
+            setData(jsonValue ? JSON.parse(jsonValue) : null);
+        } catch (e) {
+            alert("A error has occurred.");
+        }
+    }
+
+    const SetCacheData = async (Data) => {
+        try {
+            const jsonValue = JSON.stringify(Data)
+            await AsyncStorage.setItem('@cache', jsonValue)
+        } catch (e) {
+            alert("A error has occurred.");
+        }
+    }
+
+    NetInfo.fetch().then(state => {
+        setinternetConnected(state.isConnected);
+    });
+
     useEffect(() => {
-        setLoading(true);
-        getData();
+        if (internetConnected) {
+            setLoading(true);
+            getDataFromAPI();
+            SetCacheData(Data);
+        } else {
+            getDataFromCache();
+        }
     }, [page])
 
 
