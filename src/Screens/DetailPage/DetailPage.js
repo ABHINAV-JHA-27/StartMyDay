@@ -1,16 +1,17 @@
 import { StyleSheet, Text, View, ScrollView, ImageBackground, Image, Pressable } from "react-native";
 import React from "react";
 import { useNavigation, useRoute } from '@react-navigation/core';
-// import bg from "../../../assets/detailGradient.jpg";
 import bg from "../../../assets/gradient.jpg";
 import * as WebBrowser from 'expo-web-browser';
 import { Entypo } from '@expo/vector-icons';
 
 const DetailPage = () => {
+    //Initialization
     const navigation = useNavigation();
     const route = useRoute();
     const item = route?.params?.item;
 
+    //Function to navigate to previous screen
     const goBack = () => {
         navigation.pop();
     }

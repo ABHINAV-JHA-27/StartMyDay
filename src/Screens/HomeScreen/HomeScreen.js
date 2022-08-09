@@ -6,25 +6,26 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { service } from '../../Services/NewsService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNetInfo } from "@react-native-community/netinfo";
 import NetInfo from '@react-native-community/netinfo';
 
 const HomeScreen = () => {
+    //states
     const [Data, setData] = useState([]);
     const [Loading, setLoading] = useState(false);
-    const [page, setpage] = useState(1);
-    const [internetConnected, setinternetConnected] = useState(true);
+    const [page, setPage] = useState(1);
+    const [internetConnected, setInternetConnected] = useState(true);
 
+    //initialization    
     const navigation = useNavigation();
     const route = useRoute();
     const user = route?.params?.user;
 
-    const netinfo = useNetInfo();
-
+    //function to navigate to detail screen of news card
     const showDetail = (item) => {
         navigation.navigate('Detail', { item });
     }
 
+    //function to get news from server
     const getDataFromAPI = async () => {
         await service().then(data => {
             setData(Data.concat(data));
@@ -33,6 +34,7 @@ const HomeScreen = () => {
         });
     }
 
+    //function to get news from local storage
     const getDataFromCache = async () => {
         try {
             const jsonValue = await AsyncStorage.getItem('@cache');
@@ -41,7 +43,7 @@ const HomeScreen = () => {
             alert("A error has occurred.");
         }
     }
-
+    //function to add loaded news to local storage
     const SetCacheData = async (Data) => {
         try {
             const jsonValue = JSON.stringify(Data)
@@ -51,8 +53,9 @@ const HomeScreen = () => {
         }
     }
 
+    //Method to check internet connection
     NetInfo.fetch().then(state => {
-        setinternetConnected(state.isConnected);
+        setInternetConnected(state.isConnected);
     });
 
     useEffect(() => {
@@ -65,7 +68,7 @@ const HomeScreen = () => {
         }
     }, [page])
 
-
+    //navigate to previous screen
     const goBack = () => {
         Alert.alert(
             "Logout",
@@ -105,7 +108,7 @@ const HomeScreen = () => {
                     onEndReachedThreshold={0}
                     onEndReached={() => {
                         setLoading(true)
-                        setpage(page + 1)
+                        setPage(page + 1)
                     }}
                 />
             </View>
@@ -113,7 +116,9 @@ const HomeScreen = () => {
     );
 };
 
+
 export default HomeScreen;
+
 
 const styles = StyleSheet.create({
     page: {

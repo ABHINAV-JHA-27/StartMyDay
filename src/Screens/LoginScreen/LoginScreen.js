@@ -6,11 +6,14 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const LoginScreen = () => {
+    //States
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    //Initialization
     const navigation = useNavigation();
 
+    //Function to navigate to HomeScreen by logging in
     const login = () => {
         if (username.toLowerCase() === 'admin' && password === 'admin') {
             navigation.navigate('HomeScreen');
